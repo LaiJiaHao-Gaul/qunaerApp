@@ -25,7 +25,7 @@ export default {
     position absolute
     top 0
     left 0
-    width .64rem
+    width 1rem
     text-align center
     font-size .4rem
 </style>
