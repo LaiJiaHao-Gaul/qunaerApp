@@ -15,12 +15,12 @@ import HomeIcons from './components/Icons'
 import HomeRecommend from './components/Recommend'
 import HomeWeekend from './components/Weekend'
 import axios from 'axios'
+import store from '@/store'
 export default {
   name: 'Home',
   data: function () {
     return {
       iconList: [],
-      city: '',
       swiperList: [],
       weekendList: [],
       recommendList: []
@@ -40,7 +40,6 @@ export default {
     },
     getHomeInfoSucc (res) {
       res = res.data
-      this.city = res.data.city
       this.swiperList = res.data.swiperList
       this.iconList = res.data.iconList
       this.weekendList = res.data.weekendList
@@ -49,6 +48,11 @@ export default {
   },
   mounted () {
     this.getHomeInfo()
+  },
+  computed: {
+    city () {
+      return store.state.placeSelected
+    }
   }
 }
 </script>

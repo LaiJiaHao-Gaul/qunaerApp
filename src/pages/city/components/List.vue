@@ -5,7 +5,7 @@
         <div class="title border-topbottom">当前城市</div>
         <div class="button-list">
           <div class="button-wrapper">
-            <div class='button'>北京</div>
+            <div class='button selected' @click='handleClick'>{{placeSelected}}</div>
           </div>
         </div>
       </div>
@@ -13,14 +13,14 @@
         <div class="title border-topbottom">热门城市</div>
         <div class="button-list">
           <div class="button-wrapper" v-for='item of hot' :key='item.id'>
-            <div class='button'>{{item.name}}</div>
+            <div class='button' @click='handleClick'>{{item.name}}</div>
           </div>
         </div>
       </div>
       <div class="area" v-for='(item,key) in cities' :key='key' :ref='key'>
         <div class="title border-topbottom">{{key}}</div>
         <div class="item-list">
-          <div class='item border-bottom' v-for='place of item' :key='place.id'>
+          <div class='item border-bottom' v-for='place of item' :key='place.id' @click='handleClick'>
             {{place.name}}
           </div>
         </div>
@@ -30,8 +30,13 @@
 </template>
 <script>
 import Bscroll from 'better-scroll'
+import store from '@/store/index.js'
 export default {
   name: 'CityList',
+  data: function () {
+    return {
+    }
+  },
   props: {
     cities: Object,
     hot: Array,
@@ -46,6 +51,17 @@ export default {
         const element = this.$refs[this.letter][0]
         this.scroll.scrollToElement(element)
       }
+    }
+  },
+  methods: {
+    handleClick (event) {
+      console.log(event.target.innerText)
+      store.commit('UpdatePlaceSelected', event.target.innerText)
+    }
+  },
+  computed: {
+    placeSelected () {
+      return store.state.placeSelected || '北京'
     }
   }
 }
@@ -85,6 +101,9 @@ export default {
         text-align center
         border .02rem solid #ccc
         border-radius .06rem
+      .selected
+        background $bgColor
+        color: #eee
   .item-list
     .item
       line-height: .76rem
